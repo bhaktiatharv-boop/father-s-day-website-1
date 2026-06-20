@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Journey Together, Dad ❤️</title>
+    <style>
+        :root {
+            color-scheme: dark;
+            --bg: #0a0a0a;
+            --surface: rgba(15, 15, 15, 0.82);
+            --surface-strong: rgba(18, 18, 18, 0.96);
+            --border: rgba(255, 79, 163, 0.24);
+            --border-glow: rgba(255, 79, 163, 0.45);
+            --accent: #ff4fa3;
+            --accent-strong: #d62839;
+            --text: #f7edf0;
+            --muted: #c2b0bb;
+            --shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+            font-family: 'Poppins', 'Montserrat', system-ui, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100%;
+            background: radial-gradient(circle at top, rgba(255,79,163,0.12), transparent 24%),
+                        radial-gradient(circle at 80% 20%, rgba(214,40,57,0.18), transparent 18%),
+                        linear-gradient(180deg, #080808 0%, #0a0a0a 48%, #090509 100%);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            pointer-events: none;
+            inset: 0;
+            background: radial-gradient(circle at 20% 25%, rgba(255, 79, 163, 0.18), transparent 18%),
+                        radial-gradient(circle at 82% 12%, rgba(214, 40, 57, 0.14), transparent 12%);
+            opacity: 0.9;
+            z-index: 0;
+        }
+
+        body::after {
+            background: radial-gradient(circle at 50% 85%, rgba(255, 79, 163, 0.12), transparent 18%),
+                        radial-gradient(circle at 10% 80%, rgba(214, 40, 57, 0.14), transparent 16%);
+        }
+
+        .page-shell {
+            position: relative;
+            z-index: 1;
+            width: min(1180px, calc(100% - 2rem));
+            margin: 0 auto;
+            padding: 2rem 0 3rem;
+        }
+
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 4rem 1rem 2rem;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top right, rgba(255, 79, 163, 0.18), transparent 18%),
+                        radial-gradient(circle at left center, rgba(214, 40, 57, 0.12), transparent 15%);
+            opacity: 0.7;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 720px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 79, 163, 0.16);
+            border-radius: 32px;
+            backdrop-filter: blur(18px);
+            background: rgba(10, 10, 10, 0.66);
+            box-shadow: var(--shadow);
+            animation: fadeInUp 1.2s ease both;
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-size: clamp(3rem, 5vw, 5rem);
+            line-height: 0.98;
+            text-transform: uppercase;
+            letter-spacing: -0.06em;
+            color: white;
+        }
+
+        .hero p {
+            margin: 1.5rem 0 0;
+            font-size: clamp(1.05rem, 1.35vw, 1.4rem);
+            max-width: 34rem;
+            color: var(--muted);
+        }
+
+        .hero .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: #ff99c7;
+        }
+
+        .hero .badge span {
+            width: 0.8rem;
+            height: 0.8rem;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #ff4fa3, #d62839);
+            box-shadow: 0 0 18px rgba(255, 79, 163, 0.45);
+        }
+
+        .scroll-hint {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 2.5rem;
+            color: #ffe1f1;
+            font-size: 0.98rem;
+            animation: float 3.5s ease-in-out infinite;
+        }
+
+        .scroll-hint svg {
+            width: 1.4rem;
+            height: 1.4rem;
+            fill: none;
+            stroke: #ff4fa3;
+            stroke-width: 2.2;
+        }
+
+        .cards {
+            display: grid;
+            gap: 1.5rem;
+            margin-top: 3rem;
+            padding-bottom: 1rem;
+            animation: fadeInUp 1.2s ease 0.2s both;
+        }
+
+        .memory-card {
+            position: relative;
+            display: block;
+            overflow: hidden;
+            padding: 2rem;
+            border-radius: 24px;
+            background: rgba(12, 12, 12, 0.7);
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(20px);
+            transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .memory-card:hover {
+            transform: translateY(-6px) scale(1.01);
+            border-color: rgba(255, 79, 163, 0.68);
+            box-shadow: 0 28px 70px rgba(255, 79, 163, 0.12);
+        }
+
+        .memory-card::before {
+            content: '♥';
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 1.6rem;
+            color: rgba(255, 79, 163, 0.28);
+            text-shadow: 0 0 20px rgba(255, 79, 163, 0.35);
+        }
+
+        .memory-card h2 {
+            margin: 0 0 0.75rem;
+            font-size: clamp(1.65rem, 2.3vw, 2.3rem);
+        }
+
+        .memory-card p {
+            margin: 0;
+            font-size: 1.02rem;
+            line-height: 1.75;
+            color: #d9c6d2;
+        }
+
+        .memory-card span {
+            display: inline-flex;
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+            color: #ff91c9;
+            letter-spacing: 0.04em;
+        }
+
+        .footer {
+            margin-top: 3rem;
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.98rem;
+            opacity: 0.92;
+            animation: fadeIn 1.2s ease 0.4s both;
+        }
+
+        @media (max-width: 860px) {
+            .hero {
+                padding-top: 3rem;
+                min-height: 88vh;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (min-width: 861px) {
+            .cards {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .particle {
+            position: absolute;
+            font-size: 1rem;
+            opacity: 0;
+            color: rgba(255, 79, 163, 0.85);
+            text-shadow: 0 0 16px rgba(255, 79, 163, 0.4);
+            animation: floatUp 7s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(10px) scale(0.7); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(-240px) scale(1.1); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <audio id="bgMusic" preload="auto" autoplay playsinline loop>
+        <source src="WhatsApp Audio 2026-06-21 at 12.06.41 AM.mpeg" type="audio/mpeg">
+    </audio>
+    <div class="page-shell">
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <h1>Happy Father's Day ❤️</h1>
+                <p>A collection of our beautiful memories through the years.</p>
+                <a class="scroll-hint" href="#memoryGrid">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14m0 0l6-6m-6 6l-6-6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    Scroll to memories
+                </a>
+            </div>
+        </section>
+
+        <section class="cards" id="memoryGrid">
+            <a href="year1.html" class="memory-card">
+                <h2>Timeline 2008 – 2012</h2>
+                <p>“The beginning of unforgettable moments.”</p>
+                <span>Open the timeline</span>
+            </a>
+            <a href="year2.html" class="memory-card">
+                <h2>Timeline 2013 – 2018</h2>
+                <p>“More laughter, adventures, and memories.”</p>
+                <span>Open the timeline</span>
+            </a>
+            <a href="year3.html" class="memory-card">
+                <h2>Timeline 2019 – 2022</h2>
+                <p>“Moments that made us stronger together.”</p>
+                <span>Open the timeline</span>
+            </a>
+            <a href="year4.html" class="memory-card">
+                <h2>Timeline 2023 – ∞</h2>
+                <p>“A new chapter begins, with every moment ahead.”</p>
+                <span>Open the timeline</span>
+            </a>
+            <a href="poem.html" class="memory-card">
+                <h2>A Poem For You Papa</h2>
+                <p>“A few words from my heart.”</p>
+                <span>Read the poem</span>
+            </a>
+        </section>
+
+        <footer class="footer">Made with love for You Papa ❤️</footer>
+    </div>
+
+    <script>
+        const audio = document.getElementById('bgMusic');
+        const playAudio = () => {
+            audio.play().catch(() => {
+                document.addEventListener('click', playAudio, { once: true });
+            });
+        };
+        playAudio();
+
+        const hero = document.querySelector('.hero');
+        const particleCount = 12;
+
+        for (let i = 0; i < particleCount; i += 1) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.textContent = '❤️';
+            particle.style.left = `${Math.random() * 96 + 2}%`;
+            particle.style.top = `${Math.random() * 82 + 8}%`;
+            particle.style.fontSize = `${Math.random() * 18 + 14}px`;
+            particle.style.animationDuration = `${Math.random() * 6 + 6}s`;
+            particle.style.animationDelay = `${Math.random() * -6}s`;
+            particle.style.opacity = `${Math.random() * 0.45 + 0.3}`;
+            hero.appendChild(particle);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Little Moments Stitched With Love</title>
+    <style>
+        :root {
+            color-scheme: dark;
+            --bg: #080607;
+            --deep: #0a0a0a;
+            --red: #d62839;
+            --pink: #ff4fa3;
+            --text: #f9eef4;
+            --muted: #b8a6b3;
+            --surface: rgba(15, 12, 14, 0.72);
+            --light: rgba(255, 79, 163, 0.18);
+            --shadow: 0 30px 80px rgba(0,0,0,0.45);
+            font-family: 'Poppins', 'Montserrat', system-ui, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100%;
+            background: radial-gradient(circle at top left, rgba(255,79,163,0.12), transparent 18%),
+                        radial-gradient(circle at 90% 15%, rgba(214,40,57,0.16), transparent 16%),
+                        linear-gradient(180deg, #050304 0%, #0a0a0a 28%, #16080f 100%);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(circle at 15% 10%, rgba(255, 79, 163, 0.16), transparent 12%),
+                              radial-gradient(circle at 80% 20%, rgba(214, 40, 57, 0.1), transparent 10%),
+                              radial-gradient(circle at 40% 90%, rgba(255, 79, 163, 0.09), transparent 14%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.02), transparent 32%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .page-shell {
+            position: relative;
+            z-index: 1;
+            width: min(1180px, calc(100% - 2rem));
+            margin: 0 auto;
+            padding: 2.5rem 0 4rem;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 1.25rem 2rem;
+            background: rgba(15, 11, 14, 0.65);
+            border: 1px solid rgba(255, 79, 163, 0.18);
+            border-radius: 32px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(20px);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top, rgba(255, 79, 163, 0.14), transparent 22%);
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-size: clamp(2.8rem, 5vw, 4.5rem);
+            line-height: 1.02;
+            letter-spacing: -0.05em;
+            color: #ff85bb;
+            text-shadow: 0 0 18px rgba(255, 79, 163, 0.35);
+        }
+
+        .hero h2 {
+            margin: 1rem 0 1.25rem;
+            font-size: 1.05rem;
+            color: var(--muted);
+            font-weight: 400;
+            max-width: 52rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .glow-bar {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 0.95rem 1.4rem;
+            margin-top: 1.75rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 79, 163, 0.3);
+            background: rgba(255, 79, 163, 0.08);
+            color: #ffd5e5;
+            font-size: 0.95rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            box-shadow: 0 0 24px rgba(255, 79, 163, 0.12);
+        }
+
+        .collage {
+            position: relative;
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(12, 1fr);
+            grid-auto-rows: 10rem;
+            margin: 3rem 0 2.5rem;
+            min-height: 620px;
+            animation: fadeInUp 1s ease both;
+        }
+
+        .photo-card {
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+            transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+            backdrop-filter: blur(12px);
+            opacity: 0;
+            transform: translateY(24px);
+        }
+
+        .photo-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .photo-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            border-color: rgba(255, 79, 163, 0.42);
+            box-shadow: 0 32px 80px rgba(255, 79, 163, 0.18);
+        }
+
+        .photo-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 1px solid rgba(255, 255, 255, 0.38);
+            pointer-events: none;
+        }
+
+        .photo-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(255,255,255,0.04), transparent 42%);
+            pointer-events: none;
+        }
+
+        .photo-card img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        .photo-card.figure {
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            background: rgba(16, 12, 14, 0.84);
+        }
+
+        .polaroid {
+            position: relative;
+            overflow: hidden;
+            background: #090608;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 24px;
+        }
+
+        .polaroid img {
+            width: 100%;
+            height: auto;
+        }
+
+        .polaroid .label {
+            padding: 0.9rem 1rem 1.2rem;
+            font-size: 0.9rem;
+            letter-spacing: 0.02em;
+            color: #e9d8e0;
+            text-align: center;
+        }
+
+        .decor {
+            position: absolute;
+            width: 2rem;
+            height: 2rem;
+            opacity: 0.8;
+            animation: float 6s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        .decor.heart { color: #ff4fa3; }
+        .decor.star { color: #d62839; }
+        .decor::before {
+            content: attr(data-symbol);
+            font-size: 1.6rem;
+            text-shadow: 0 0 12px rgba(255, 79, 163, 0.25);
+        }
+
+        .stitch {
+            position: absolute;
+            width: 160px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            border-radius: 999px;
+            z-index: 1;
+            opacity: 0.8;
+        }
+
+        .caption {
+            text-align: center;
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 1rem 1rem 0;
+        }
+
+        .caption h2 {
+            margin: 0;
+            font-size: clamp(2rem, 3vw, 2.7rem);
+            color: #ff89c1;
+            text-shadow: 0 0 20px rgba(255, 79, 163, 0.3);
+        }
+
+        .caption p {
+            margin: 1rem auto 0;
+            max-width: 46rem;
+            color: var(--muted);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        .nav-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2rem auto 0;
+            padding: 1rem 1.8rem;
+            border-radius: 999px;
+            background: linear-gradient(135deg, rgba(255,79,163,0.28), rgba(214,40,57,0.16));
+            border: 1px solid rgba(255, 79, 163, 0.35);
+            color: #ffe8f0;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-decoration: none;
+            box-shadow: 0 0 28px rgba(255, 79, 163, 0.12);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, rgba(255,79,163,0.44), rgba(214,40,57,0.2));
+            box-shadow: 0 0 40px rgba(255, 79, 163, 0.22);
+        }
+
+        @media (max-width: 960px) {
+            .collage {
+                grid-template-columns: repeat(6, minmax(0, 1fr));
+                grid-auto-rows: 8rem;
+                min-height: 760px;
+            }
+        }
+
+        @media (max-width: 680px) {
+            .page-shell {
+                padding: 1.5rem 0 3rem;
+            }
+
+            .hero {
+                padding: 2rem 1rem 1.5rem;
+            }
+
+            .collage {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                grid-auto-rows: 8rem;
+                min-height: auto;
+            }
+
+            .photo-card {
+                min-height: 180px;
+            }
+
+            .photo-card:nth-child(odd) {
+                grid-column: span 4;
+            }
+
+            .photo-card:nth-child(even) {
+                grid-column: span 4;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <audio id="bgMusic" preload="auto" autoplay playsinline loop>
+        <source src="WhatsApp Audio 2026-06-21 at 12.06.41 AM.mpeg" type="audio/mpeg">
+    </audio>
+    <div class="page-shell">
+        <section class="hero">
+            <h1>Little Moments Stitched With Love</h1>
+            <h2>The years where countless little moments quietly became lifelong memories.</h2>
+            <div class="glow-bar">2008 – 2012</div>
+        </section>
+
+        <section class="collage" aria-label="Photo collage of childhood memories">
+            <div class="photo-card" style="grid-column: span 5; grid-row: span 6;">
+                <img src="New%20folder/20100824202948.jpg" alt="Father holding child">
+            </div>
+            <div class="photo-card polaroid" style="grid-column: 6 / span 4; grid-row: 1 / span 4;">
+                <img src="New%20folder/Child.jpg" alt="Child portrait">
+                <div class="label">A quiet day, captured forever.</div>
+            </div>
+            <div class="photo-card" style="grid-column: 10 / span 3; grid-row: 1 / span 3;">
+                <img src="New%20folder/IMG-20210213-WA0062.jpg" alt="Father and baby smiling">
+            </div>
+            <div class="photo-card polaroid" style="grid-column: 1 / span 4; grid-row: 7 / span 5;">
+                <img src="New%20folder/IMG-20210213-WA0089.jpg" alt="Family portrait">
+                <div class="label">A cherished memory frame.</div>
+            </div>
+            <div class="photo-card" style="grid-column: 5 / span 3; grid-row: 8 / span 4;">
+                <img src="New%20folder/IMG_20190217_084652.jpg" alt="Childhood adventure photo">
+            </div>
+            <div class="photo-card" style="grid-column: 8 / span 5; grid-row: 6 / span 6;">
+                <img src="New%20folder/IMG_20190217_085201.jpg" alt="Memory collage scene">
+            </div>
+            <div class="photo-card" style="grid-column: 1 / span 5; grid-row: 13 / span 4;">
+                <img src="New%20folder/Photo0040.jpg" alt="Photograph with family members">
+            </div>
+            <div class="photo-card" style="grid-column: 6 / span 4; grid-row: 13 / span 4;">
+                <img src="New%20folder/20101005201008.jpg" alt="Portrait from early years">
+            </div>
+
+            <div class="decor heart" data-symbol="❤️" style="top: 12%; left: 18%; animation-duration: 7s;"></div>
+            <div class="decor star" data-symbol="★" style="top: 30%; left: 72%; animation-duration: 5.7s;"></div>
+            <div class="decor heart" data-symbol="❣" style="top: 63%; left: 26%; animation-duration: 6.2s;"></div>
+            <div class="decor star" data-symbol="✶" style="top: 78%; left: 60%; animation-duration: 7.4s;"></div>
+
+            <div class="stitch" style="top: 32%; left: 22%; transform: rotate(14deg);"></div>
+            <div class="stitch" style="top: 54%; left: 64%; transform: rotate(-18deg); width: 140px;"></div>
+            <div class="stitch" style="top: 72%; left: 38%; transform: rotate(10deg); width: 180px;"></div>
+        </section>
+
+        <section class="caption">
+            <h2>Little Moments Stitched With Love ❤️</h2>
+            <p>Every smile, every adventure, every tiny moment from 2008 to 2012 became a thread in the story we share today.</p>
+            <a class="nav-button" href="index.html">Back to Timeline</a>
+        </section>
+    </div>
+
+    <script>
+        const audio = document.getElementById('bgMusic');
+        const playAudio = () => {
+            audio.play().catch(() => {
+                document.addEventListener('click', playAudio, { once: true });
+            });
+        };
+        playAudio();
+
+        const photoCards = document.querySelectorAll('.photo-card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.2
+        });
+
+        photoCards.forEach(card => observer.observe(card));
+    </script>
+</body>
+</html>
